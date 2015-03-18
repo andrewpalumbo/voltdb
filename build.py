@@ -40,7 +40,7 @@ CTX = BuildContext(sys.argv)
 # these are the base compile options that get added to every compile step
 # this does not include header/lib search paths or specific flags for
 #  specific targets
-CTX.CPPFLAGS += """-Wall -Wextra -Werror -Woverloaded-virtual
+CTX.CPPFLAGS += """-Wall -Wextra -Woverloaded-virtual
             -Wpointer-arith -Wcast-qual -Wwrite-strings
             -Winit-self -Wno-sign-compare -Wno-unused-parameter
             -D__STDC_CONSTANT_MACROS -D__STDC_LIMIT_MACROS -DNOCLOCK
@@ -355,84 +355,86 @@ if whichtests == None:
     whichtests = "${eetestsuite}"
 
 # input format similar to source, but the executable name is listed
-if whichtests ==  "${eetestsuite}":
-    CTX.TESTS['.'] = """
-     harness_test
-    """
+#if whichtests ==  "${eetestsuite}":
+#    CTX.TESTS['.'] = """
+#     harness_test
+#    """
 
-if whichtests in ("${eetestsuite}", "catalog"):
-    CTX.TESTS['catalog'] = """
-    catalog_test
-    """
+#if whichtests in ("${eetestsuite}", "catalog"):
+#    CTX.TESTS['catalog'] = """
+#    catalog_test
+#    """
+#
+#if whichtests in ("${eetestsuite}", "logging"):
+#    CTX.TESTS['logging'] = """
+#    logging_test
+#    """
+#
+#if whichtests in ("${eetestsuite}", "common"):
+#    CTX.TESTS['common'] = """
+#     debuglog_test
+#     serializeio_test
+#     undolog_test
+#     valuearray_test
+#     nvalue_test
+#     pool_test
+#     tabletuple_test
+#     elastic_hashinator_test
+#    """
+#
+#if whichtests in ("${eetestsuite}", "execution"):
+#    CTX.TESTS['execution'] = """
+#     add_drop_table
+#     engine_test
+#     FragmentManagerTest
+#    """
+#
+#if whichtests in ("${eetestsuite}", "expressions"):
+#    CTX.TESTS['expressions'] = """
+#     expression_test
+#    """
+#
+#if whichtests in ("${eetestsuite}", "indexes"):
+#    CTX.TESTS['indexes'] = """
+#     index_key_test
+#     index_scripted_test
+#     index_test
+#     compacting_hash_index
+#     CompactingTreeMultiIndexTest
+#    """
+#
+#if whichtests in ("${eetestsuite}", "storage"):
+#    CTX.TESTS['storage'] = """
+#     CompactionTest
+#     constraint_test
+#     CopyOnWriteTest
+#     filter_test
+#     persistent_table_log_test
+#     PersistentTableMemStatsTest
+#     serialize_test
+#     StreamedTable_test
+#     table_and_indexes_test
+#     table_test
+#     tabletuple_export_test
+#     TempTableLimitsTest
+#     ExportTupleStream_test
+#     DRTupleStream_test
+#    """
 
-if whichtests in ("${eetestsuite}", "logging"):
-    CTX.TESTS['logging'] = """
-    logging_test
-    """
-
-if whichtests in ("${eetestsuite}", "common"):
-    CTX.TESTS['common'] = """
-     debuglog_test
-     serializeio_test
-     undolog_test
-     valuearray_test
-     nvalue_test
-     pool_test
-     tabletuple_test
-     elastic_hashinator_test
-    """
-
-if whichtests in ("${eetestsuite}", "execution"):
-    CTX.TESTS['execution'] = """
-     add_drop_table
-     engine_test
-     FragmentManagerTest
-    """
-
-if whichtests in ("${eetestsuite}", "expressions"):
-    CTX.TESTS['expressions'] = """
-     expression_test
-    """
-
-if whichtests in ("${eetestsuite}", "indexes"):
-    CTX.TESTS['indexes'] = """
-     index_key_test
-     index_scripted_test
-     index_test
-     compacting_hash_index
-     CompactingTreeMultiIndexTest
-    """
-
-if whichtests in ("${eetestsuite}", "storage"):
-    CTX.TESTS['storage'] = """
-     CompactionTest
-     constraint_test
-     CopyOnWriteTest
-     filter_test
-     persistent_table_log_test
-     PersistentTableMemStatsTest
-     serialize_test
-     StreamedTable_test
-     table_and_indexes_test
-     table_test
-     tabletuple_export_test
-     TempTableLimitsTest
-     ExportTupleStream_test
-     DRTupleStream_test
-    """
+#     CompactingMapTest
+#     CompactingMapIndexCountTest
+#     CompactingHashTest
+#     CompactingPoolTest
 
 if whichtests in ("${eetestsuite}", "structures"):
     CTX.TESTS['structures'] = """
-     CompactingMapTest
-     CompactingMapIndexCountTest
-     CompactingHashTest
-     CompactingPoolTest
+     benchmarkTest
     """
-
-if whichtests in ("${eetestsuite}", "plannodes"):
-    CTX.TESTS['plannodes'] = """
-     PlanNodeFragmentTest
-    """
+#
+#if whichtests in ("${eetestsuite}", "plannodes"):
+#    CTX.TESTS['plannodes'] = """
+#     PlanNodeFragmentTest
+#    """
 
 ###############################################################################
 # BUILD THE MAKEFILE
