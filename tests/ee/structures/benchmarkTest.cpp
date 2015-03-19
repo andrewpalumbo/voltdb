@@ -144,11 +144,11 @@ void resultPrinter(std::string name, int scale, std::vector<Benchmark> result) {
     printf("\n");
 }
 
-TEST_F(CompactingMapBenchTest, RandomInsert) {
-    const int NUM_OF_VALUES = 1000000;
-    const int BIGGEST_VAL = 1000000;
-    const int ITERATIONS_UPDATES = 10000;  // for UPDATE
-    const int ITERATIONS = 100000;  // for LOOK UP and DELETE
+void BenchmarkRun(int NUM_OF_VALUES) {
+
+    int BIGGEST_VAL = NUM_OF_VALUES;
+    int ITERATIONS = NUM_OF_VALUES / 10; // for 10% LOOK UP and DELETE
+
     std::vector<Benchmark> result;
 
     std::vector<int> input = getRandomValues(NUM_OF_VALUES, BIGGEST_VAL);
@@ -178,8 +178,8 @@ TEST_F(CompactingMapBenchTest, RandomInsert) {
     Benchmark benBtree(BtreeMap);
     benBtree.start();
     for (int i = 0; i < NUM_OF_VALUES; i++) {
-    	int val = input[i];
-    	btreeMap.insert(std::pair<int,int>(val, val));
+        int val = input[i];
+        btreeMap.insert(std::pair<int,int>(val, val));
     }
     benBtree.stop();
     result.push_back(benBtree);
@@ -208,7 +208,7 @@ TEST_F(CompactingMapBenchTest, RandomInsert) {
     btree::btree_map<int, int, less<int>, allocator<int>, 256>::iterator iter_btree = btreeMap.begin();
     benBtree.start();
     while(iter_btree != btreeMap.end()) {
-    	iter_btree++;
+        iter_btree++;
     }
     benBtree.stop();
     result.push_back(benBtree);
@@ -222,24 +222,24 @@ TEST_F(CompactingMapBenchTest, RandomInsert) {
 
     benVolt.start();
     for (int i = 0; i< ITERATIONS; i++) {
-    	int val = keys[i];
-    	iter_volt = voltMap.find(val);
+        int val = keys[i];
+        iter_volt = voltMap.find(val);
     }
     benVolt.stop();
     result.push_back(benVolt);
 
     benStl.start();
     for (int i = 0; i< ITERATIONS; i++) {
-    	int val = keys[i];
-    	iter_stl = stlMap.find(val);
+        int val = keys[i];
+        iter_stl = stlMap.find(val);
     }
     benStl.stop();
     result.push_back(benStl);
 
     benBtree.start();
     for (int i = 0; i< ITERATIONS; i++) {
-    	int val = keys[i];
-    	iter_btree = btreeMap.find(val);
+        int val = keys[i];
+        iter_btree = btreeMap.find(val);
     }
     benBtree.stop();
     result.push_back(benBtree);
@@ -247,66 +247,48 @@ TEST_F(CompactingMapBenchTest, RandomInsert) {
     resultPrinter("LOOK UP", ITERATIONS, result);
     result.clear();
 
-
-    // UPDATE
-    std::vector<int> updates = getRandomValues(ITERATIONS_UPDATES, BIGGEST_VAL);
-
-    benVolt.start();
-    for (int i = 0; i< ITERATIONS_UPDATES; i++) {
-    	int val = updates[i];
-    	voltMap.erase(val);
-    }
-    benVolt.stop();
-    result.push_back(benVolt);
-
-    benStl.start();
-    for (int i = 0; i< ITERATIONS_UPDATES; i++) {
-    	int val = deletes[i];
-    	stlMap.erase(val);
-    }
-    benStl.stop();
-    result.push_back(benStl);
-
-    benBtree.start();
-    for (int i = 0; i< ITERATIONS_UPDATES; i++) {
-    	int val = deletes[i];
-    	btreeMap.erase(val);
-    }
-    benBtree.stop();
-    result.push_back(benBtree);
-
-    resultPrinter("UPDATE", ITERATIONS_UPDATES, result);
-    result.clear();
-
     // DELETE
     std::vector<int> deletes = getRandomValues(ITERATIONS, BIGGEST_VAL);
 
     benVolt.start();
     for (int i = 0; i< ITERATIONS; i++) {
-    	int val = deletes[i];
-    	voltMap.erase(val);
+        int val = deletes[i];
+        voltMap.erase(val);
     }
     benVolt.stop();
     result.push_back(benVolt);
 
     benStl.start();
     for (int i = 0; i< ITERATIONS; i++) {
-    	int val = deletes[i];
-    	stlMap.erase(val);
+        int val = deletes[i];
+        stlMap.erase(val);
     }
     benStl.stop();
     result.push_back(benStl);
 
     benBtree.start();
     for (int i = 0; i< ITERATIONS; i++) {
-    	int val = deletes[i];
-    	btreeMap.erase(val);
+        int val = deletes[i];
+        btreeMap.erase(val);
     }
     benBtree.stop();
     result.push_back(benBtree);
 
     resultPrinter("DELETE", ITERATIONS, result);
     result.clear();
+}
+
+TEST_F(CompactingMapBenchTest, RandomInsert) {
+    int length = 8;
+    int scales[] = {10, 100, 1000, 1000 * 10, 1000 * 100, 1000 * 1000, 1000 * 1000 * 10, 1000 * 1000 * 100};
+
+    for (int i = 0; i < length; i++) {
+        int scale = scales[i];
+        printf("=============\nBenchmark Run, Scale %d", scale);
+        BenchmarkRun(scale);
+        printf("=============\nBenchmark Finishes\n\n");
+    }
+
 }
 
 int main() {
