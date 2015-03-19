@@ -279,12 +279,12 @@ void BenchmarkRun(int NUM_OF_VALUES) {
 }
 
 TEST_F(CompactingMapBenchTest, RandomInsert) {
-    int length = 8;
-    int scales[] = {10, 100, 1000, 1000 * 10, 1000 * 100, 1000 * 1000, 1000 * 1000 * 10, 1000 * 1000 * 100};
+    int length = 7;
+    int scales[] = {10, 100, 1000, 10000, 100000, 1000000, 10000000};
 
     for (int i = 0; i < length; i++) {
         int scale = scales[i];
-        printf("=============\nBenchmark Run, Scale %d", scale);
+        printf("=============\nBenchmark Run, Scale %d\n", scale);
         BenchmarkRun(scale);
         printf("=============\nBenchmark Finishes\n\n");
     }
