@@ -118,7 +118,7 @@ public:
     }
 
     void start() {
-//        printf("%s benchmark starts...", mapCategoryToString(m_name).c_str());
+//        printf("\n%s benchmark starts...", mapCategoryToString(m_name).c_str());
         m_start = getMicrosNow();
         m_duration = 0;
     }
@@ -126,7 +126,7 @@ public:
     void stop() {
         m_duration += getMicrosNow() - m_start;
         m_start = getMicrosNow();
-//        printf("%s benchmark stops...", mapCategoryToString(m_name).c_str());
+//        printf("\n%s benchmark stops...", mapCategoryToString(m_name).c_str());
     }
 
     void print() {
@@ -159,16 +159,16 @@ void BenchmarkRun(int NUM_OF_VALUES) {
     std::vector<int> input = getRandomValues(NUM_OF_VALUES, BIGGEST_VAL);
 
     // tree map and hash map
-    voltdb::CompactingMap<NormalKeyValuePair<int, int>, IntComparator, false> voltMap(true, IntComparator());
-    std::map<int,int> stlMap;
-    btree::btree_map<int, int, less<int>, allocator<int>, 256> btreeMap;
+    voltdb::CompactingMap<NormalKeyValuePair<int, int>, IntComparator, false> voltMap(false, IntComparator());
+    std::multimap<int,int> stlMap;
+    btree::btree_multimap<int, int, less<int>, allocator<int>, 256> btreeMap;
     boost::unordered_multimap<int, int> boostMap;
     voltdb::CompactingHashTable<int,int> voltHash(false);
 
     // Iterators
     voltdb::CompactingMap<NormalKeyValuePair<int, int>, IntComparator, false>::iterator iter_volt_map;
-    std::map<int, int>::const_iterator iter_stl;
-    btree::btree_map<int, int, less<int>, allocator<int>, 256>::iterator iter_btree;
+    std::multimap<int, int>::const_iterator iter_stl;
+    btree::btree_multimap<int, int, less<int>, allocator<int>, 256>::iterator iter_btree;
     boost::unordered_multimap<int,int>::iterator iter_boost_map;
     voltdb::CompactingHashTable<int,int>::iterator iter_volt_hash;
 
